@@ -1,0 +1,46 @@
+NAME    = bibutil
+VERSION = 0.01
+
+
+include ${HOME}/macros.inc.new
+
+
+INCDIRS += ${GRMLIB_INCDIR}
+LIBDIRS += ${GRMLIB_LIBDIR}
+LINKS   += ${GRMLIB_LINK} ${MATH_LINK}
+
+
+SUBDIRS   =
+
+OBJECTS   =
+
+LIBRARIES =
+BINARIES  = bibutil
+PRODUCTS  =
+
+TARGETS   = ${LIBRARIES} ${BINARIES} ${PRODUCTS}
+
+EXTRA_CLEANS =
+
+
+include ${INSTALL}/targets.inc
+
+
+clean: clean_parse_files
+
+clean_parse_files:
+	rm -f *.yy.c *.tab.c *.tab.h
+
+
+bibutil: bib_db.o bibutil.o bib_parse.yy.o bib_parse.tab.o
+	${CC} ${CCFLAGS} ${CCDEFINES} -o bibutil bib_db.o bibutil.o bib_parse.yy.o bib_parse.tab.o \
+        ${INCDIRS} ${LIBDIRS} ${LINKS}
+
+bib_parse.yy.c: bib_parse.l bib_parse.tab.h
+	flex -i -obib_parse.yy.c bib_parse.l
+
+bib_parse.tab.h bib_parse.tab.c: bib_parse.y
+	bison -d bib_parse.y
+
+
+include dep.inc

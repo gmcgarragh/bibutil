@@ -1,0 +1,34 @@
+find /home/gregm/doc/books            ! -type d | sort > list_books.txt
+find /home/gregm/doc/papers/atmos_sci ! -type d | sort > list_atmos_sci.txt
+find /home/gregm/doc/papers/astrophys ! -type d | sort > list_astrophys.txt
+find /home/gregm/doc/papers/comp_sci  ! -type d | sort > list_comp_sci.txt
+find /home/gregm/doc/papers/geophys   ! -type d | sort > list_geophys.txt
+find /home/gregm/doc/papers/math      ! -type d | sort > list_math.txt
+find /home/gregm/doc/papers/misc      ! -type d | sort > list_misc.txt
+find /home/gregm/doc/papers/rad_trans ! -type d | sort > list_rad_trans.txt
+find /home/gregm/doc/papers/spectrosc ! -type d | sort > list_spectrosc.txt
+find /home/gregm/doc/reports          ! -type d | sort > list_reports.txt
+
+#valgrind --tool=memcheck --leak-check=full --show-reachable=yes \
+bibutil -bibfile ~/bibtex/journal_names.bib -bibfile ~/bibtex/bibliography.bib \
+     -merge_files list_books.txt     "Miscellaneous" \
+     -merge_files list_atmos_sci.txt "Atmospheric Science" \
+     -merge_files list_astrophys.txt "Astrophysics" \
+     -merge_files list_comp_sci.txt  "Computer Science" \
+     -merge_files list_geophys.txt   "Geophysics" \
+     -merge_files list_math.txt      "Mathematics" \
+     -merge_files list_misc.txt      "Miscellaneous" \
+     -merge_files list_rad_trans.txt "Radiative Transfer" \
+     -merge_files list_spectrosc.txt "Spectroscopy" \
+     -merge_files list_reports.txt   "Miscellaneous"
+
+rm list_books.txt
+rm list_atmos_sci.txt
+rm list_astrophys.txt
+rm list_comp_sci.txt
+rm list_geophys.txt
+rm list_math.txt
+rm list_misc.txt
+rm list_rad_trans.txt
+rm list_spectrosc.txt
+rm list_reports.txt
