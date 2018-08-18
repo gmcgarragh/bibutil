@@ -8,9 +8,14 @@
 #*******************************************************************************
 .SUFFIXES: .c
 
-OBJECTS = 
+OBJECTS = bib_db.o \
+          bibutil.o \
+          bib_parse.yy.o \
+          bib_parse.tab.o \
+          gstruct.o \
+          gutil_error.o
 
-EXTRA_CLEANS = bindx_yylex_int.c bindx_yylex_int.h
+EXTRA_CLEANS = bib_parse.tab.c bib_parse.tab.h bib_parse.yy.c
 
 include make.inc
 
@@ -31,7 +36,7 @@ README: readme_source.txt
 	sed -i 's/[ \t]*$$//' README
 
 clean:
-	rm -f *.o bibutil *.yy.c *.tab.c *.tab.h $(EXTRA_CLEANS)
+	rm -f *.o bibutil $(EXTRA_CLEANS)
 
 .c.o:
 	$(CC) $(CCFLAGS) $(INCDIRS) -I. -c -o $*.o $<
