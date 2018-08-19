@@ -8,17 +8,22 @@
 #*******************************************************************************
 .SUFFIXES: .c
 
-OBJECTS = 
-
-EXTRA_CLEANS = bindx_yylex_int.c bindx_yylex_int.h
-
 include make.inc
+
+OBJECTS = bib_db.o \
+          bibutil.o \
+          bib_parse.yy.o \
+          bib_parse.tab.o \
+          gstruct.o \
+          gutil_error.o
+
+EXTRA_CLEANS = bib_parse.tab.c bib_parse.tab.h bib_parse.yy.c
 
 all: bibutil
 
 bibutil: bib_db.o bibutil.o bib_parse.yy.o bib_parse.tab.o gstruct.o gutil_error.o
-	${CC} ${CCFLAGS} ${CCDEFINES} -o bibutil bib_db.o bibutil.o bib_parse.yy.o bib_parse.tab.o gstruct.o gutil_error.o \
-        ${INCDIRS} ${LIBDIRS} ${LINKS}
+	$(CC) $(CCFLAGS) -o bibutil $(OBJECTS) \
+        $(INCDIRS) $(LIBDIRS) $(LINKS)
 
 bib_parse.yy.c: bib_parse.l bib_parse.tab.h
 	flex -i -obib_parse.yy.c bib_parse.l
@@ -31,7 +36,7 @@ README: readme_source.txt
 	sed -i 's/[ \t]*$$//' README
 
 clean:
-	rm -f *.o bibutil *.yy.c *.tab.c *.tab.h $(EXTRA_CLEANS)
+	rm -f *.o bibutil $(EXTRA_CLEANS)
 
 .c.o:
 	$(CC) $(CCFLAGS) $(INCDIRS) -I. -c -o $*.o $<
