@@ -41,4 +41,19 @@ clean:
 .c.o:
 	$(CC) $(CCFLAGS) $(INCDIRS) -I. -c -o $*.o $<
 
-include dep.inc
+# Requires gcc
+depend:
+	@files=`find . -maxdepth 1 -name "*.c" | sort`; \
+        if test $${#files} != 0; then \
+             if (eval gcc -v 1> /dev/null 2>&1); then \
+                  echo gcc -MM -w $$files "> depend.inc"; \
+                  gcc -MM -w $$files > dep.inc; \
+             else \
+                  echo makedepend -f- -Y -- -- $$files "> depend.inc"; \
+                  makedepend -f- -Y -- -- $$files > dep.inc; \
+             fi \
+        else \
+             echo -n '' > dep.inc; \
+        fi
+
+include depend.inc
