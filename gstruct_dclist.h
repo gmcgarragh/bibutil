@@ -132,7 +132,7 @@ dclist *dclist_create(void) {
      list = (dclist *) malloc(sizeof(dclist));
 
      if (list == NULL)
-          eprintf("Memory allocation error: dclist_create()");
+          fprintf(stderr, "Memory allocation error: dclist_create()");
 
      list->comp   = NULL;
      list->free_  = NULL;
@@ -253,7 +253,7 @@ dcelem *dclist_insert(dclist *list, dcelem *pos, GSTRUCT_TYPE value) {
      tmp = (dcelem *) malloc(sizeof(dcelem));
 
      if (tmp == NULL)
-          eprintf("Memory allocation error: dclist_insert()");
+          fprintf(stderr, "Memory allocation error: dclist_insert()");
 
      tmp->value = value;
 

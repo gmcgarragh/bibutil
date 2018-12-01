@@ -10,18 +10,19 @@
 
 include make.inc
 
+INCDIRS += -I.
+
 OBJECTS = bib_db.o \
           bibutil.o \
           bib_parse.yy.o \
           bib_parse.tab.o \
-          gstruct.o \
-          gutil_error.o
+          gstruct.o
 
 EXTRA_CLEANS = bib_parse.tab.c bib_parse.tab.h bib_parse.yy.c
 
 all: bibutil
 
-bibutil: bib_db.o bibutil.o bib_parse.yy.o bib_parse.tab.o gstruct.o gutil_error.o
+bibutil: bib_db.o bibutil.o bib_parse.yy.o bib_parse.tab.o gstruct.o
 	$(CC) $(CCFLAGS) -o bibutil $(OBJECTS) \
         $(INCDIRS) $(LIBDIRS) $(LINKS)
 
@@ -39,7 +40,7 @@ clean:
 	rm -f *.o bibutil $(EXTRA_CLEANS)
 
 .c.o:
-	$(CC) $(CCFLAGS) $(INCDIRS) -I. -c -o $*.o $<
+	$(CC) $(CCFLAGS) $(INCDIRS) -c -o $*.o $<
 
 # Requires gcc
 depend:
