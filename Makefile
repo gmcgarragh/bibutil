@@ -57,7 +57,4 @@ depend:
              echo -n '' > dep.inc; \
         fi
 
-depend-subdirs:
-	${MAKE_SUBDIRS}
-
 include depend.inc
